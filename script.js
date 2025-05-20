@@ -9,21 +9,28 @@ const getData = async () => {
   const data = await response.json();
   const results = data.results;
 
-  // Pilih 3 random pokemon
+  // Pilih 6 random pokemon
   const shuffled = results.sort(() => 0.5 - Math.random());
-  const selected = shuffled.slice(0, 5);
+  const selected = shuffled.slice(0, 6);
 
   selected.forEach((item) => {
     const id = item.url.split("/")[6];
     const card = document.createElement("div");
-    // Tailwind styling untuk card
     card.className =
-      "bg-white p-4 rounded-lg shadow-lg flex flex-col items-center transition-transform hover:scale-105";
+      "bg-gray-900 p-6 rounded-xl shadow-[0_0_15px_#0ff,0_0_40px_#0ff] flex flex-col items-center transition-transform hover:scale-110 cursor-pointer";
 
     card.innerHTML = `
-      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png" alt="${item.name}" class="w-32 h-32 object-contain mb-4" />
-      <h3 class="text-xl font-bold capitalize mb-2">${item.name}</h3>
-      <p class="text-gray-500 text-sm break-words">${item.url}</p>
+      <img
+        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png"
+        alt="${item.name}"
+        class="w-48 h-48 object-contain mb-6 drop-shadow-[0_0_8px_cyan]"
+      />
+      <h3
+        class="text-cyan-400 text-2xl font-bold capitalize mb-2 tracking-wide drop-shadow-[0_0_8px_cyan]"
+      >
+        ${item.name}
+      </h3>
+      <p class="text-gray-400 text-center break-words">${item.url}</p>
     `;
 
     itemCard.appendChild(card);
