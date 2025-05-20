@@ -4,35 +4,34 @@ const btnRefresh = document.getElementById("btn-refresh");
 const getData = async () => {
   itemCard.innerHTML = ""; // kosongkan dulu
 
-  // Ambil 20 pokemon dari API (fixed list)
+  // Ambil 150 pokemon dari API
   const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=150");
   const data = await response.json();
   const results = data.results;
 
-  // Pilih 3 random dari 20 tersebut
+  // Pilih 3 random pokemon
   const shuffled = results.sort(() => 0.5 - Math.random());
-  const selected = shuffled.slice(0, 3);
+  const selected = shuffled.slice(0, 5);
 
   selected.forEach((item) => {
     const id = item.url.split("/")[6];
     const card = document.createElement("div");
-    card.classList.add("card");
+    // Tailwind styling untuk card
+    card.className =
+      "bg-white p-4 rounded-lg shadow-lg flex flex-col items-center transition-transform hover:scale-105";
+
     card.innerHTML = `
-      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png" alt="${item.name}" />
-      <h3 class="capitalize">${item.name}</h3>
-      <p>${item.url}</p>
+      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png" alt="${item.name}" class="w-32 h-32 object-contain mb-4" />
+      <h3 class="text-xl font-bold capitalize mb-2">${item.name}</h3>
+      <p class="text-gray-500 text-sm break-words">${item.url}</p>
     `;
-    `<div class="bg-white p-4 rounded shadow" id="card">
-            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png" alt="${item.name}" class="w-full h-48 object-cover rounded" >
-            <h2 class="text-xl font-semibold">${item.name}</h2>
-            <p>Ini adalah isi kotak 1.</p>
-        </div>`
+
     itemCard.appendChild(card);
   });
 };
 
-// Panggil getData sekali saat halaman load
+// Load data pertama kali
 getData();
 
-// Pasang event listener refresh sekali di luar fungsi
+// Event refresh
 btnRefresh.addEventListener("click", getData);
